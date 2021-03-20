@@ -1,4 +1,4 @@
-# authentication_course
+# task_management
 
 ## Project setup
 
