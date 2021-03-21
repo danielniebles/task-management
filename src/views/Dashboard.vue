@@ -11,8 +11,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import EventCard from '../components/EventCard'
+import EventService from '@/services/EventService.js'
 
 export default {
   components: { EventCard },
@@ -23,7 +24,8 @@ export default {
     }
   },
   created () {
-    axios.get('//localhost:3000/dashboard').then(({ data }) => {
+    EventService.setAuthToken()
+    EventService.getEvents().then(({ data }) => {
       this.events = data.events.events
       this.isLoading = false
     })

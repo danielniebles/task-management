@@ -36,12 +36,12 @@ const router = new Router({
 
 })
 
-router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem('user')
-  if (to.matched.some(record => record.meta.authRequired) && !loggedIn) {
-    next('/')
-  }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   const loggedIn = localStorage.getItem('user')
+//   if (to.matched.some(record => record.meta.authRequired) && !loggedIn) {
+//     next('/')
+//   }
+//   next()
+// })
 
 export default router

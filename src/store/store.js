@@ -1,6 +1,7 @@
-import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import axios from 'axios'
+import EventService from '@/services/EventService.js'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,7 @@ export default new Vuex.Store({
     SET_USER_DATA (state, userData) {
       state.userData = userData
       localStorage.setItem('user', JSON.stringify(userData))
-      axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
+      // EventService.apiClient.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
     },
     CLEAR_USER_DATA () {
       localStorage.removeItem('user')
@@ -21,14 +22,16 @@ export default new Vuex.Store({
   },
   actions: {
     register ({ commit }, credentials) {
-      return axios.post('//localhost:3000/register', credentials).then(({ data }) => {
+      return EventService.post('//localhost:3000/register', credentials).then(({ data }) => {
         commit('SET_USER_DATA', data)
       })
     },
     login ({ commit }, credentials) {
-      return axios.post('//localhost:3000/login', credentials).then(({ data }) => {
+      console.log('testeo')
+      return EventService.postLogin(credentials).then(({ data }) => {
+        console.log(data)
         commit('SET_USER_DATA', data)
-      })
+      }).catch((err) => console.log(err))
     },
     logout ({ commit }) {
       commit('CLEAR_USER_DATA')
