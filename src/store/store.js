@@ -13,7 +13,6 @@ export default new Vuex.Store({
     SET_USER_DATA (state, userData) {
       state.userData = userData
       localStorage.setItem('user', JSON.stringify(userData))
-      // EventService.apiClient.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
     },
     CLEAR_USER_DATA () {
       localStorage.removeItem('user')
@@ -26,12 +25,9 @@ export default new Vuex.Store({
         commit('SET_USER_DATA', data)
       })
     },
-    login ({ commit }, credentials) {
-      console.log('testeo')
-      return EventService.postLogin(credentials).then(({ data }) => {
-        console.log(data)
-        commit('SET_USER_DATA', data)
-      }).catch((err) => console.log(err))
+    async login ({ commit }, credentials) {
+      const { data } = await EventService.postLogin(credentials)
+      commit('SET_USER_DATA', data)
     },
     logout ({ commit }) {
       commit('CLEAR_USER_DATA')

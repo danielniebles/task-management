@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { mapState } from 'vuex'
 import store from '@/store/store.js'
 
 export const apiClient = axios.create({
@@ -7,17 +6,12 @@ export const apiClient = axios.create({
 })
 
 export default {
-  ...mapState(['userData']),
-  postLogin: credentials => apiClient.post('/login', credentials),
-  getEvents: () => apiClient.get('/dashboard'),
+  postLogin: credentials => apiClient.post('/auth/signin', credentials),
+  getTasks: () => apiClient.get('/tasks'),
   setAuthToken: () => {
-    console.log('verga')
-    // console.log(store.userData.token)
-    const token = store.state.userData.token
+    const token = store.state.userData.accessToken
     if (token) {
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    } else {
-      console.log('Test')
     }
   }
 }

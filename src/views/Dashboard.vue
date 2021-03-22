@@ -25,8 +25,9 @@ export default {
   },
   created () {
     EventService.setAuthToken()
-    EventService.getEvents().then(({ data }) => {
-      this.events = data.events.events
+    EventService.getTasks().then((response) => {
+      console.log(response)
+      this.events = response.data
       this.isLoading = false
     })
   }
