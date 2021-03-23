@@ -1,21 +1,35 @@
 <template>
-  <div>
-    <form @submit.prevent="loginUser">
-      <label for="username">Username:</label>
-      <input v-model="username" name="username" value="username">
-
-      <label for="password">Password:</label>
-      <input v-model="password" type="password" name="password" value="password">
-
-      <button type="submit" name="button">
-        Login
-      </button>
-
-      <p>{{ error }}</p>
-      <router-link :to="{ name: 'register'}">
-        Don't have an account? Register
-      </router-link>
-    </form>
+  <div id="card">
+    <v-card width="400">
+      <v-card-title>
+        <h2>Login</h2>
+      </v-card-title>
+      <v-card-text>
+        <v-form>
+          <v-text-field v-model="username" prepend-icon="mdi-account-circle" label="Username" />
+          <v-text-field
+            v-model="password"
+            prepend-icon="mdi-lock"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            label="Password"
+            :type="showPassword ? 'text' : 'password'"
+            @click:append="showPassword = !showPassword"
+          />
+        </v-form>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <v-btn
+          :to="{ name: 'register' }"
+        >
+          Register
+        </v-btn>
+        <v-spacer />
+        <v-btn @click="loginUser">
+          Login
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -26,7 +40,8 @@ export default {
     return {
       username: '',
       password: '',
-      error: null
+      error: null,
+      showPassword: false
     }
   },
   methods: {
@@ -42,12 +57,8 @@ export default {
         this.error = err.response.data.error
       }
     }
-
   }
-
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

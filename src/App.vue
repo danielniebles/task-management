@@ -1,20 +1,65 @@
 <template>
-  <div id="app">
-    <app-nav />
-    <router-view class="page" />
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <v-app-bar-title>Task Management</v-app-bar-title>
+      <v-spacer />
+      <v-btn rounded :to="{ name: 'home'}" retain-focus-on-click>
+        Home
+      </v-btn>
+      <v-btn
+        v-if="!loggedIn"
+        rounded
+        :to="{ name: 'login'} "
+        retain-focus-on-click
+      >
+        Login
+      </v-btn>
+      <v-btn
+        v-if="loggedIn"
+        rounded
+        retain-focus-on-click
+        :to="{ name: 'dashboard'}"
+      >
+        Dashboard
+      </v-btn>
+      <v-btn
+        v-if="loggedIn"
+        rounded
+        retain-focus-on-click
+        @click="logoutUser"
+      >
+        Logout
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <router-view class="page" />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import AppNav from './components/AppNav'
-
+import { mapActions } from 'vuex'
+import { authComputed } from './store/helpers.js'
 export default {
-  components: { AppNav }
+  name: 'App',
+  computed: {
+    ...authComputed
+  },
+  methods: {
+    ...mapActions(['logout']),
+    logoutUser () {
+      this.logout()
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-@import './assets/styles/global.scss';
 .page {
   display: flex;
   justify-content: center;
@@ -22,4 +67,5 @@ export default {
   align-items: center;
   min-height: calc(100vh - 56px);
 }
+
 </style>
